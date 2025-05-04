@@ -35,12 +35,18 @@ const Login = () => {
   const onSignUpPress = async () => {
     setLoading(true);
 
+    if (!email.trim() || !password.trim()) {
+      Alert.alert('Missing Fields', 'Email and password are required.');
+      setLoading(false);
+      return;
+    }
+
     const {
       data: { session },
       error,
     } = await supabaseConnector.client.auth.signUp({
-      email: email,
-      password: password,
+      email: email.trim(),
+      password: password.trim(),
     });
 
     if (error) {
